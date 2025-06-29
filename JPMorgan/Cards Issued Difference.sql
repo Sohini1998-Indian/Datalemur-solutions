@@ -39,7 +39,7 @@
 -- - Subtract min from max
 -- - Sort descending by difference
 
--- 🧠 SQL Solution:
+-- 🧠 SQL Solution1:
 with rank_db as (SELECT *,
 DENSE_RANK() OVER(PARTITION BY card_name order by issued_amount) as rnk,
 DENSE_RANK() OVER(PARTITION BY card_name order by issued_amount DESC) as rnk_desc
@@ -57,3 +57,9 @@ from joined_db
 where rnk=1
 group by card_name,bigger_amount,smaller_amount
 order by (bigger_amount-smaller_amount) desc;
+
+-- 🧠 SQL Solution1:
+select card_name, max(issued_amount)-min(issued_amount) as difference
+from monthly_cards_issued
+group by card_name
+order by max(issued_amount)-min(issued_amount) DESC;
